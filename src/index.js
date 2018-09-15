@@ -8,7 +8,11 @@ const createNotEnumerableProperty = propertyName => {
   return Symbol(propertyName);
 };
 
-const createProtoMagicObject = () => {};
+const createProtoMagicObject = () => {
+  let obj = function() {};
+  obj.__proto__ = obj.prototype;
+  return obj;
+};
 
 const incrementor = () => {
   incrementor.count++;
@@ -56,7 +60,11 @@ const createSerializedObject = () => {
 
 const toBuffer = () => {};
 
-const sortByProto = () => {};
+const sortByProto = objects => {
+  return objects.sort(
+    (a, b) => (Object.prototype.isPrototypeOf.call(a, b) ? 1 : -1)
+  );
+};
 
 exports.createEnumerableProperty = createEnumerableProperty;
 exports.createNotEnumerableProperty = createNotEnumerableProperty;
