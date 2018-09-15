@@ -1,17 +1,61 @@
 // DO WHATEVER YOU WANT HERE
 
-const createEnumerableProperty = () => {};
-const createNotEnumerableProperty = () => {};
-const createProtoMagicObject = () => {};
-const incrementor = () => {};
-const asyncIncrementor = () => {};
-const createIncrementer = () => {};
+const createEnumerableProperty = propertyName => {
+  return propertyName;
+};
 
-// return same argument not earlier than in one second, and not later, than in two
-const returnBackInSecond = () => {};
-const getDeepPropertiesCount = () => {};
-const createSerializedObject = () => {};
+const createNotEnumerableProperty = propertyName => {
+  return Symbol(propertyName);
+};
+
+const createProtoMagicObject = () => {};
+
+const incrementor = () => {
+  incrementor.count++;
+  return incrementor;
+};
+incrementor.count = 0;
+incrementor.valueOf = () => incrementor.count;
+
+const asyncIncrementor = () => {
+  return new Promise(r => r(++asyncIncrementor.count));
+};
+asyncIncrementor.count = 0;
+
+const createIncrementer = function*() {
+  let i = 1;
+  for (;;) yield i++;
+};
+
+const returnBackInSecond = param => {
+  return new Promise(r => {
+    setTimeout(() => {
+      r(param);
+    }, 1000);
+  });
+};
+
+const getDeepPropertiesCount = obj => {
+  let stack = [obj];
+  let count = 0;
+  while (stack.length > 0) {
+    count++;
+    let obj = stack.pop();
+    for (let propertyName in obj) {
+      if (obj[propertyName] instanceof Object) {
+        stack.push(obj[propertyName]);
+      }
+    }
+  }
+  return count - 1;
+};
+
+const createSerializedObject = () => {
+  return null;
+};
+
 const toBuffer = () => {};
+
 const sortByProto = () => {};
 
 exports.createEnumerableProperty = createEnumerableProperty;
