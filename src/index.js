@@ -61,9 +61,7 @@ const createSerializedObject = () => {
 const toBuffer = () => {};
 
 const sortByProto = objects => {
-  return objects.sort(
-    (a, b) => (Object.prototype.isPrototypeOf.call(a, b) ? 1 : -1)
-  );
+  return objects.sort((a, b) => (a.isPrototypeOf(b) ? 1 : -1));
 };
 
 exports.createEnumerableProperty = createEnumerableProperty;
